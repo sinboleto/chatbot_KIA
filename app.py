@@ -1,8 +1,11 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
+import os
 
 app = Flask(__name__)
+
+port = int(os.environ.get('PORT', 5000))
 
 # Twilio credentials
 account_sid = 'ACf01ddcd618830097852506cba7b428ef'
@@ -47,4 +50,4 @@ def forward_to_agent(message):
     )
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=port)
