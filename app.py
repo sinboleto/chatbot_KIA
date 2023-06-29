@@ -34,7 +34,8 @@ def webhook():
 
         # If it's not a frequently asked question, escalate the conversation to a human agent
         else:
-            forward_to_agent(incoming_message)
+            # forward_to_agent(incoming_message)
+            pass
 
         return str(response)
     else:
