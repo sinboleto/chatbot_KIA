@@ -5,9 +5,9 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 # Twilio credentials
-account_sid = 'YOUR_ACCOUNT_SID'
-auth_token = 'YOUR_AUTH_TOKEN'
-twilio_phone_number = 'YOUR_TWILIO_PHONE_NUMBER'
+account_sid = 'ACf01ddcd618830097852506cba7b428ef'
+auth_token = '6d766a27c20d815c06a9654cd63341f1'
+twilio_phone_number = '+15416923070'
 
 # Create Twilio client
 client = Client(account_sid, auth_token)
@@ -39,7 +39,7 @@ def webhook():
 def forward_to_agent(message):
     # Logic to forward the message to a human agent
     # You can use Twilio Notify, send an email, or integrate with a messaging platform to notify the agent
-    agent_phone_number = 'AGENT_PHONE_NUMBER'
+    agent_phone_number = '+525551078511'
     client.messages.create(
         body=message,
         from_=twilio_phone_number,
