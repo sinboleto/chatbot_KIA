@@ -18,28 +18,27 @@ twilio_phone_number = '+14155238886' # Sandbox
 client = Client(account_sid, auth_token)
 
 # Define the route for handling incoming WhatsApp messages
-@app.route('/')
-def start():
-    return 'App conectada'
-
-@app.route('/webhook', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def webhook():
-    incoming_message = request.values.get('Body', '').lower()
-    response = MessagingResponse()
+    if request.method == 'POST':
+        incoming_message = request.values.get('Body', '').lower()
+        response = MessagingResponse()
 
-    # Check if the incoming message is a frequently asked question
-    if incoming_message == 'hi':
-        response.message("Hello! How can I assist you today?")
-    elif incoming_message == 'how are you?':
-        response.message("I'm a chatbot. I don't have feelings, but thanks for asking!")
-    elif incoming_message == 'what is your name?':
-        response.message("I'm a chatbot. You can call me ChatGPT!")
+        # Check if the incoming message is a frequently asked question
+        if incoming_message == 'hi':
+            response.message("Hello! How can I assist you today?")
+        elif incoming_message == 'how are you?':
+            response.message("I'm a chatbot. I don't have feelings, but thanks for asking!")
+        elif incoming_message == 'what is your name?':
+            response.message("I'm a chatbot. You can call me ChatGPT!")
 
-    # If it's not a frequently asked question, escalate the conversation to a human agent
+        # If it's not a frequently asked question, escalate the conversation to a human agent
+        else:
+            forward_to_agent(incoming_message)
+
+        return str(response)
     else:
-        forward_to_agent(incoming_message)
-
-    return str(response)
+        return "Hello, this is the root path."
 
 def forward_to_agent(message):
     # Logic to forward the message to a human agent
