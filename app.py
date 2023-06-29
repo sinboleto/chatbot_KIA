@@ -9,7 +9,7 @@ port = int(os.environ.get('PORT', 5000))
 
 # Twilio credentials
 account_sid = 'ACf01ddcd618830097852506cba7b428ef'
-auth_token = '6d766a27c20d815c06a9654cd63341f1'
+auth_token = 'a6626c30c4a87f2f44a6df6d483b8d7b'
 
 # twilio_phone_number = '+15416923070'
 twilio_phone_number = '+14155238886' # Sandbox
