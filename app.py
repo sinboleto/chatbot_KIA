@@ -62,8 +62,8 @@ def webhook():
             response.message(respuesta_FAQ_5)
 
         elif compare_sentence_with_list(incoming_message, lista_despedida):
-            respuesta_FAQ_5 = """Fue un gusto ayudarte. Hasta luego"""
-            response.message(respuesta_FAQ_5)
+            respuesta_FAQ_6 = """Fue un gusto ayudarte. Hasta luego"""
+            response.message(respuesta_FAQ_6)
 
         # If it's not a frequently asked question, escalate the conversation to a human agent
         else:
@@ -86,6 +86,10 @@ def forward_to_agent(message):
     )
 
 def compare_sentence_with_list(sentence, word_list):
+    
+    if sentence in word_list:
+        return True
+    
     sentence_words = sentence.split()
     
     for word in sentence_words:
