@@ -30,6 +30,8 @@ def webhook():
         incoming_message = re.sub(r'\W+', ' ',unidecode(request.values.get('Body', '').lower().strip()))
         response = MessagingResponse()
 
+        bienvenida = 'Bienvenido al chatbot del evento del octavo aniversario de KIA. Escribe "hola" para comenzar'
+
         lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches']
         lista_FAQ_1 = ['cuando','fecha','hora','donde','lugar','venue','salon','direccion','duracion']
         lista_FAQ_2 = ['hospedaje','hotel','hoteles','alojamiento']
@@ -39,7 +41,7 @@ def webhook():
         lista_despedida = ['adios','hasta luego']
 
         # Check if the incoming message is a frequently asked question
-        if compare_sentence_with_list(incoming_message, lista_saludo):
+        if bienvenida == incoming_message or compare_sentence_with_list(incoming_message, lista_saludo):
             response.message("Hola ¿Cómo te puedo ayudar?\nSoy un chatbot y estoy programado para responder dudas sobre la información general del evento, recomendaciones de hospedaje, dress code y agenda del evento. Cualquier otra duda, un asesor lo atenderá por este medio")
         
         elif compare_sentence_with_list(incoming_message, lista_FAQ_1):
@@ -69,7 +71,7 @@ def webhook():
         # If it's not a frequently asked question, escalate the conversation to a human agent
         else:
             response.message("""Para responder a su pregunta, a continuación un asesor lo atenderá por este medio. Gracias por su paciencia""")
-            # forward_to_agent(incoming_message)
+            forward_to_agent(incoming_message)
             pass
 
         return str(response)
@@ -81,11 +83,14 @@ def forward_to_agent(message):
     # Logic to forward the message to a human agent
     # You can use Twilio Notify, send an email, or integrate with a messaging platform to notify the agent
     agent_phone_number = '+525551078511'
-    client.messages.create(
-        body=message,
-        from_=twilio_phone_number,
-        to=agent_phone_number
-    )
+    try:
+        client.messages.create(
+            body=message,
+            from_=twilio_phone_number,
+            to=agent_phone_number
+        )
+    except:
+        pass
 
 
 def get_word_combinations(sentence):
