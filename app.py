@@ -35,60 +35,38 @@ def webhook():
         lista_FAQ_5 = ['agenda']
 
         # Check if the incoming message is a frequently asked question
-        if incoming_message in lista_saludo:
+        if compare_sentence_with_list(incoming_message, lista_saludo):
             response.message("Hola ¿Cómo te puedo ayudar?")
         
-        elif incoming_message in lista_FAQ_1:
-            respuesta_FAQ_1 = """Esta es la información general del evento:
-            Fecha: 08 de agosto de 2023
-            Cita: 19:00 hrs
-            Venue: Foro Codere
-            Dirección: Av. Industria Militar s/n esq. Periférico. Col. Lomas de Sotelo,
-            Del. Miguel Hidalgo. Link: https://goo.gl/maps/AiDZWCWrWLwViW817
-            Acceso a estacionamiento y a venue por puerta 1 y 2 del Hipódromo de las Américas"""
+        elif compare_sentence_with_list(incoming_message, lista_FAQ_1):
+            respuesta_FAQ_1 = """Esta es la información general del evento:\nFecha: 08 de agosto de 2023\nCita: 19:00 hrs\nVenue: Foro Codere\nDirección: Av. Industria Militar s/n esq. Periférico. Col. Lomas de Sotelo, Del. Miguel Hidalgo.\nLink: https://goo.gl/maps/AiDZWCWrWLwViW817\nAcceso a estacionamiento y a venue por puerta 1 y 2 del Hipódromo de las Américas"""
             response.message(respuesta_FAQ_1)
         
-        elif incoming_message in lista_FAQ_2:
-            respuesta_FAQ_2 = """Contamos con alizanza con el hotel Hyatt Regency Mexico City Insurgentes.
-            Link: https://goo.gl/maps/HCqTAzWbhSrvB58NA.
-            Para reservaciones contactar a: asistente@amdk.mx.
-            Habrá transportación del hotel a Foro Codere"""
+        elif compare_sentence_with_list(incoming_message, lista_FAQ_2):
+            respuesta_FAQ_2 = """Contamos con alizanza con el hotel Hyatt Regency Mexico City Insurgentes.\nLink: https://goo.gl/maps/HCqTAzWbhSrvB58NA.\nPara reservaciones contactar a: asistente@amdk.mx.\nHabrá transportación del hotel a Foro Codere"""
             response.message(respuesta_FAQ_2)
         
-        elif incoming_message in lista_FAQ_3:
+        elif compare_sentence_with_list(incoming_message, lista_FAQ_3):
             respuesta_FAQ_3 = """El venue cuenta con estacionamiento privado y servicio de valet parking"""
             response.message(respuesta_FAQ_3)
         
-        elif incoming_message in lista_FAQ_4:
-            respuesta_FAQ_4 = """El dress code es smart business. Te proponemos algunas opciones:
-            - Combinación de prendas
-            - Camisas lisas, corbata opcional
-            - Tejidos como la lana, el tweed y el algodón
-            - Blazers con falda, vestidos por la rodilla, camisas lisas o pantalones de sastre
-            - Joyas sencillas y lisas, si se llevan
-            - Cinturones y zapatos cerrados pulidos
-            - Maletines, bolsos de mano o elegantes
-            La paleta de colores suele ser de tonos neutros como el negro, el azul marino, el gris, el beige y el crema"""
+        elif compare_sentence_with_list(incoming_message, lista_FAQ_4):
+            respuesta_FAQ_4 = """El dress code es smart business. Te proponemos algunas opciones:\n- Combinación de prendas\n- Camisas lisas, corbata opcional\n- Tejidos como la lana, el tweed y el algodón\n- Blazers con falda, vestidos por la rodilla, camisas lisas o pantalones de sastre\n- Joyas sencillas y lisas, si se llevan\n- Cinturones y zapatos cerrados pulidos\n- Maletines, bolsos de mano o elegantes\nLa paleta de colores suele ser de tonos neutros como el negro, el azul marino, el gris, el beige y el crema"""
             response.message(respuesta_FAQ_4)
 
-        elif incoming_message in lista_FAQ_5:
-            respuesta_FAQ_5 = """El itinerario del evento será el siguiente:
-            19:00 - Registro
-            20:00 - Bienvenida
-            20:15 - Presentación
-            21:15 - Cena"""
+        elif compare_sentence_with_list(incoming_message, lista_FAQ_5):
+            respuesta_FAQ_5 = """El itinerario del evento será el siguiente:\n19:00 - Registro\n20:00 - Bienvenida\n20:15 - Presentación\n21:15 - Cena"""
             response.message(respuesta_FAQ_5)
 
         # If it's not a frequently asked question, escalate the conversation to a human agent
         else:
             # forward_to_agent(incoming_message)
-            response.message("""Para responder a su pregunta a continuación, un asesor lo atenderá por este medio. 
-            Gracias por su paciencia""")
+            response.message("""Para responder a su pregunta, a continuación un asesor lo atenderá por este medio. Gracias por su paciencia""")
             pass
 
         return str(response)
     else:
-        return "Hello, this is the root path."
+        return "Inicio exitoso"
 
 def forward_to_agent(message):
     # Logic to forward the message to a human agent
@@ -99,6 +77,15 @@ def forward_to_agent(message):
         from_=twilio_phone_number,
         to=agent_phone_number
     )
+
+def compare_sentence_with_list(sentence, word_list):
+    sentence_words = sentence.split()
+    
+    for word in sentence_words:
+        if word in word_list:
+            return True
+    
+    return False
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
