@@ -30,7 +30,7 @@ def webhook():
         incoming_message = re.sub(r'\W+', '',unidecode(request.values.get('Body', '').lower().strip()))
         response = MessagingResponse()
 
-        lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches']
+        lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches','Chatbot 8 aniversario KIA']
         lista_FAQ_1 = ['cuando','fecha','hora','donde','lugar','venue','salon','direccion','duracion']
         lista_FAQ_2 = ['hospedaje','hotel','alojamiento']
         lista_FAQ_3 = ['estacionamiento','valet parking']
@@ -68,8 +68,8 @@ def webhook():
 
         # If it's not a frequently asked question, escalate the conversation to a human agent
         else:
-            # forward_to_agent(incoming_message)
             response.message("""Para responder a su pregunta, a continuación un asesor lo atenderá por este medio. Gracias por su paciencia""")
+            # forward_to_agent(incoming_message)
             pass
 
         return str(response)
@@ -88,8 +88,10 @@ def forward_to_agent(message):
     )
 
 
-def get_word_combinations(word_list):
+def get_word_combinations(sentence):
     combinations_list = []
+    word_list = sentence.split()
+    
     for r in range(1, len(word_list) + 1):
         combinations_list.extend(combinations(word_list, r))
 
@@ -103,8 +105,8 @@ def compare_sentence_with_list(sentence, word_list):
     if sentence in word_list:
         return True
     
-    # sentence_words = get_word_combinations(word_list)
-    sentence_words = sentence.split()
+    sentence_words = get_word_combinations(word_list)
+    # sentence_words = sentence.split()
     
     for word in sentence_words:
         if word in word_list:
