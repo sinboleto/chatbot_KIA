@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 from unidecode import unidecode
 import re
+from itertools import combinations
 
 app = Flask(__name__)
 
@@ -75,6 +76,7 @@ def webhook():
     else:
         return "Inicio exitoso"
 
+
 def forward_to_agent(message):
     # Logic to forward the message to a human agent
     # You can use Twilio Notify, send an email, or integrate with a messaging platform to notify the agent
@@ -85,12 +87,23 @@ def forward_to_agent(message):
         to=agent_phone_number
     )
 
+
+def get_word_combinations(word_list):
+    combinations_list = []
+    for r in range(1, len(word_list) + 1):
+        combinations_list.extend(combinations(word_list, r))
+
+    combinations_list = [' '.join(t) for t in combinations_list]
+
+    return combinations_list
+
+
 def compare_sentence_with_list(sentence, word_list):
     
     if sentence in word_list:
         return True
     
-    sentence_words = sentence.split()
+    sentence_words = get_word_combinations(word_list)
     
     for word in sentence_words:
         if word in word_list:
