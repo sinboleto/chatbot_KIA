@@ -27,7 +27,7 @@ client = Client(account_sid, auth_token)
 def webhook():
     if request.method == 'POST':
         # Convierte a minusculas, sin acentos y sin caracteres especiales
-        incoming_message = re.sub(r'\W+', '',unidecode(request.values.get('Body', '').lower().strip()))
+        incoming_message = re.sub(r'\W+', ' ',unidecode(request.values.get('Body', '').lower().strip()))
         response = MessagingResponse()
 
         lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches','Chatbot 8 aniversario KIA']
