@@ -72,7 +72,7 @@ def webhook():
             response.message("""Para responder a su pregunta, a continuación un asesor lo atenderá por este medio. Gracias por su paciencia""")
             pass
 
-        return '{} - {}'.format(incoming_message, str(response))
+        return str(response)
     else:
         return "Inicio exitoso"
 
