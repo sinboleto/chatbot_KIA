@@ -30,17 +30,17 @@ def webhook():
         incoming_message = re.sub(r'\W+', ' ',unidecode(request.values.get('Body', '').lower().strip()))
         response = MessagingResponse()
 
-        lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches','Chatbot 8 aniversario KIA']
+        lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches']
         lista_FAQ_1 = ['cuando','fecha','hora','donde','lugar','venue','salon','direccion','duracion']
-        lista_FAQ_2 = ['hospedaje','hotel','alojamiento']
-        lista_FAQ_3 = ['estacionamiento','valet parking']
-        lista_FAQ_4 = ['dress code','codigo vestimenta','vestimenta']
+        lista_FAQ_2 = ['hospedaje','hotel','hoteles','alojamiento']
+        lista_FAQ_3 = ['estacionamiento','valet parking','estacionarse','estacionar','dejar coche']
+        lista_FAQ_4 = ['dress code','codigo vestimenta','vestimenta','vestirse']
         lista_FAQ_5 = ['agenda','itinerario']
         lista_despedida = ['adios','hasta luego']
 
         # Check if the incoming message is a frequently asked question
         if compare_sentence_with_list(incoming_message, lista_saludo):
-            response.message("Hola ¿Cómo te puedo ayudar?")
+            response.message("Hola ¿Cómo te puedo ayudar?\nSoy un chatbot y estoy programado para responder dudas sobre la información general del evento, recomendaciones de hospedaje, dress code y agenda del evento. Cualquier otra duda, un asesor lo atenderá por este medio")
         
         elif compare_sentence_with_list(incoming_message, lista_FAQ_1):
             respuesta_FAQ_1 = """Esta es la información general del evento:\nFecha: 08 de agosto de 2023\nCita: 19:00 hrs\nVenue: Foro Codere\nDirección: Av. Industria Militar s/n esq. Periférico. Col. Lomas de Sotelo, Del. Miguel Hidalgo.\nLink: https://goo.gl/maps/AiDZWCWrWLwViW817\nAcceso a estacionamiento y a venue por puerta 1 y 2 del Hipódromo de las Américas"""
