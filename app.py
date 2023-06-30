@@ -4,6 +4,7 @@ from twilio.rest import Client
 from dotenv import load_dotenv
 import os
 from unidecode import unidecode
+import re
 
 app = Flask(__name__)
 
@@ -24,15 +25,17 @@ client = Client(account_sid, auth_token)
 @app.route('/', methods=['GET', 'POST'])
 def webhook():
     if request.method == 'POST':
-        incoming_message = unidecode(request.values.get('Body', '').lower())
+        # Convierte a minusculas, sin acentos y sin caracteres especiales
+        incoming_message = re.sub(r'\W+', '',unidecode(request.values.get('Body', '').lower().strip()))
         response = MessagingResponse()
 
         lista_saludo = ['hola','buenos dias','buenas tardes','buenas noches']
-        lista_FAQ_1 = ['cuando','fecha','hora','donde','direccion','duracion']
-        lista_FAQ_2 = ['hospedaje']
+        lista_FAQ_1 = ['cuando','fecha','hora','donde','lugar','venue','salon','direccion','duracion']
+        lista_FAQ_2 = ['hospedaje','hotel','alojamiento']
         lista_FAQ_3 = ['estacionamiento','valet parking']
         lista_FAQ_4 = ['dress code','codigo vestimenta','vestimenta']
-        lista_FAQ_5 = ['agenda']
+        lista_FAQ_5 = ['agenda','itinerario']
+        lista_despedida = ['adios','hasta luego']
 
         # Check if the incoming message is a frequently asked question
         if compare_sentence_with_list(incoming_message, lista_saludo):
@@ -55,7 +58,11 @@ def webhook():
             response.message(respuesta_FAQ_4)
 
         elif compare_sentence_with_list(incoming_message, lista_FAQ_5):
-            respuesta_FAQ_5 = """El itinerario del evento será el siguiente:\n19:00 - Registro\n20:00 - Bienvenida\n20:15 - Presentación\n21:15 - Cena"""
+            respuesta_FAQ_5 = """El itinerario del evento será el siguiente:\n19:00 hrs - Registro\n20:00 hrs - Bienvenida\n20:15 hrs - Presentación\n21:15 hrs - Cena"""
+            response.message(respuesta_FAQ_5)
+
+        elif compare_sentence_with_list(incoming_message, lista_despedida):
+            respuesta_FAQ_5 = """Fue un gusto ayudarte. Hasta luego"""
             response.message(respuesta_FAQ_5)
 
         # If it's not a frequently asked question, escalate the conversation to a human agent
